@@ -63,8 +63,8 @@ public class VehicleForm {
 	}
 	
 	public Vehicle convertToEntity(UserService userService) {
-		Vehicle carro = new Vehicle (marcaCod, modeloCod, ano, VehicleType.valueOf(tipo), VehicleFuel.valueOf(combustivel), userService.findUser(userId) );
-		return carro;
+		Vehicle veiculo = new Vehicle (marcaCod, modeloCod, ano, VehicleType.valueOf(tipo), VehicleFuel.valueOf(combustivel), userService.findUser(userId) );
+		return veiculo;
 		
 	}
 

@@ -1,6 +1,8 @@
 package br.com.vitor.zupcarros.dto;
 
 
+import java.time.DayOfWeek;
+
 import br.com.vitor.zupcarros.entities.Vehicle;
 import br.com.vitor.zupcarros.entities.enums.DiaSemana;
 import br.com.vitor.zupcarros.entities.enums.VehicleFuel;
@@ -12,8 +14,8 @@ public class VehicleDto {
 	private String marca;
 	private String modelo;
 	private String ano;
-	private Float valor;
-	private DiaSemana rodizio;
+	private String valor;
+	private DayOfWeek rodizio;
 	private boolean rodizioAtivo = false;
 	private VehicleType tipo;
 	private VehicleFuel combustivel;
@@ -58,16 +60,16 @@ public class VehicleDto {
 	public void setAno(String ano) {
 		this.ano = ano;
 	}
-	public Float getValor() {
+	public String getValor() {
 		return valor;
 	}
-	public void setValor(Float valor) {
+	public void setValor(String valor) {
 		this.valor = valor;
 	}
-	public DiaSemana getRodizio() {
+	public DayOfWeek getRodizio() {
 		return rodizio;
 	}
-	public void setRodizio(DiaSemana rodizio) {
+	public void setRodizio(DayOfWeek rodizio) {
 		this.rodizio = rodizio;
 	}
 	public boolean isRodizioAtivo() {

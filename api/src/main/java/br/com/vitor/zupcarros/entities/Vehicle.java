@@ -1,6 +1,7 @@
 package br.com.vitor.zupcarros.entities;
 
 import java.io.Serializable;
+import java.time.DayOfWeek;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,8 +27,9 @@ public class Vehicle implements Serializable {
 	private String modelo;
 	private String modeloCod;
 	private String ano;
-	private Float valor;
-	private DiaSemana rodizio;
+	private String anoCod;
+	private String valor;
+	private DayOfWeek rodizio;
 	private VehicleType tipo;
 	private VehicleFuel combustivel;
 	
@@ -42,6 +44,7 @@ public class Vehicle implements Serializable {
 		this.marcaCod = marcaCod;
 		this.modeloCod = modeloCod;
 		this.ano = ano;
+		this.anoCod = ano + "-" + String.valueOf(combustivel.ordinal());
 		this.tipo = tipo;
 		this.combustivel = combustivel;
 		this.owner = owner;
@@ -87,19 +90,23 @@ public class Vehicle implements Serializable {
 		this.ano = ano;
 	}
 
-	public Float getValor() {
+	public String getAnoCod() {
+		return anoCod;
+	}
+
+	public String getValor() {
 		return valor;
 	}
 
-	public void setValor(Float valor) {
+	public void setValor(String valor) {
 		this.valor = valor;
 	}
 
-	public DiaSemana getRodizio() {
+	public DayOfWeek getRodizio() {
 		return rodizio;
 	}
 
-	public void setRodizio(DiaSemana rodizio) {
+	public void setRodizio(DayOfWeek rodizio) {
 		this.rodizio = rodizio;
 	}
 

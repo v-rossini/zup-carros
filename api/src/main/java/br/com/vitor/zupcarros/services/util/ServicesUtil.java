@@ -1,6 +1,9 @@
 package br.com.vitor.zupcarros.services.util;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,5 +31,11 @@ public class ServicesUtil {
         }
         emailAddress.validate();
         return emailAddress.getAddress();
+    }
+    
+    public String urlParser(String url) {
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+		return response.getBody();
     }
 }

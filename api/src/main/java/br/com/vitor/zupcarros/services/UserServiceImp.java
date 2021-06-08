@@ -2,6 +2,7 @@ package br.com.vitor.zupcarros.services;
 
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 
 import br.com.vitor.zupcarros.controller.forms.UserForm;
 import br.com.vitor.zupcarros.dto.UserDto;
+import br.com.vitor.zupcarros.dto.VehicleDto;
 import br.com.vitor.zupcarros.entities.User;
 import br.com.vitor.zupcarros.repositories.UserRepository;
 import br.com.vitor.zupcarros.services.util.ServicesUtil;
@@ -32,7 +34,7 @@ public class UserServiceImp implements UserService {
 		Optional<User> user = repository.findById(userId);
 
 		if (!user.isPresent()) 
-			throw new NoSuchElementException("Não foi encontrado um usuário com o id: " + userId.toString());
+			throw new NoSuchElementException("Não foi encontrado um usuário com id #" + userId.toString());
 		
 		return user.get();
 		
@@ -49,4 +51,10 @@ public class UserServiceImp implements UserService {
 		return ResponseEntity.ok(new UserDto(findUser(userId)));
 	}
 
+
+	@Override
+	public ResponseEntity<List<VehicleDto>> getVehicles(Long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
