@@ -1,12 +1,13 @@
 package br.com.vitor.zupcarros.services.util;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.mail.internet.AddressException;
@@ -38,4 +39,9 @@ public class ServicesUtil {
 		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 		return response.getBody();
     }
+    
+	public boolean isToday(DayOfWeek day) {
+		LocalDate today = LocalDate.now();
+		return day == today.getDayOfWeek() ;
+	}
 }

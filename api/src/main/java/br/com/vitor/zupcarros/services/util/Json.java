@@ -1,6 +1,8 @@
 package br.com.vitor.zupcarros.services.util;
 
 import java.io.IOException;
+import java.net.URL;
+
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +16,13 @@ public class Json {
 		return defaultObjectMapper;
 	}
 	
-	public static JsonNode parse(String string) throws IOException {
-		return objectMapper.readTree(string);
+	public static JsonNode parse(URL string) throws IOException {
+		JsonNode node;
+		try {
+			node = objectMapper.readTree(string);
+		} catch (IOException e) {
+		throw new IOException("URL inválida");
+		}
+		return node;
 	}
 }

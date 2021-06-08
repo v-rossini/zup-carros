@@ -4,7 +4,6 @@ package br.com.vitor.zupcarros.dto;
 import java.time.DayOfWeek;
 
 import br.com.vitor.zupcarros.entities.Vehicle;
-import br.com.vitor.zupcarros.entities.enums.DiaSemana;
 import br.com.vitor.zupcarros.entities.enums.VehicleFuel;
 import br.com.vitor.zupcarros.entities.enums.VehicleType;
 

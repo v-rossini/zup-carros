@@ -1,30 +1,29 @@
 package br.com.vitor.zupcarros.services;
 
 import java.io.IOException;
-import java.text.ParseException;
+import java.net.URL;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
-
-import javax.mail.internet.AddressException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 import br.com.vitor.zupcarros.controller.forms.VehicleForm;
 import br.com.vitor.zupcarros.dto.VehicleDto;
 import br.com.vitor.zupcarros.entities.Vehicle;
-import br.com.vitor.zupcarros.entities.enums.DiaSemana;
 import br.com.vitor.zupcarros.repositories.VehicleRepository;
 import br.com.vitor.zupcarros.services.util.Json;
 import br.com.vitor.zupcarros.services.util.ServicesUtil;
 
+@Service
 public class VehicleServiceImp implements VehicleService {
 	
 	@Autowired
-	VehicleRepository vehicleRepository;
+	VehicleRepository repository;
 	
 	@Autowired
 	UserService userService;
@@ -36,11 +35,18 @@ public class VehicleServiceImp implements VehicleService {
 	
 	
 	@Override
-	public ResponseEntity<VehicleDto> registerVehicle (VehicleForm form) {
+	@Transactional
+	public ResponseEntity<VehicleDto> registerVehicle (VehicleForm form) throws IOException {
 		Vehicle veiculo = form.convertToEntity(userService);
-		return new ResponseEntity<>(new VehicleDto(veiculo), HttpStatus.CREATED);
+		veiculo = addAtributes(veiculo);
+		veiculo = repository.save(veiculo);
+		
+		VehicleDto veiculoDto = new VehicleDto(veiculo);
+		veiculoDto.setRodizioAtivo(util.isToday(veiculoDto.getRodizio()));
+		return new ResponseEntity<>(veiculoDto, HttpStatus.CREATED);
 	}
 	
+	@Transactional
 	public Vehicle addAtributes(Vehicle veiculo) throws IOException {
 		veiculo = addModelo(veiculo);
 		veiculo = addMarca(veiculo);
@@ -49,65 +55,67 @@ public class VehicleServiceImp implements VehicleService {
 		return veiculo;
 	}
 	
+	@Transactional
 	public Vehicle addModelo(Vehicle veiculo) throws IOException {
-		String url = baseApiUrl + veiculo.getTipo().name().toLowerCase() + "/marcas/"
-				+ veiculo.getMarcaCod() + "/modelos/" + veiculo.getModeloCod() + "/anos" + veiculo.getAnoCod();
+		String query = baseApiUrl + veiculo.getTipo().name().toLowerCase() + "/marcas/"
+				+ veiculo.getMarcaCod() + "/modelos/" + veiculo.getModeloCod() + "/anos/" + veiculo.getAnoCod();
+		URL url = new URL(query);
 		JsonNode veiculos = Json.parse(url);
-		veiculo.setModelo(veiculos.get("modelo").asText());
+		if (veiculos.get("Modelo") != null) {
+			veiculo.setModelo(veiculos.get("Modelo").asText());
+		}
 		return veiculo;
 		
 	}
 	
+	@Transactional
 	public Vehicle addMarca(Vehicle veiculo) throws IOException {
-		String url = baseApiUrl + veiculo.getTipo().name().toLowerCase() + "/marcas/"
-				+ veiculo.getMarcaCod() + "/modelos/" + veiculo.getModeloCod() + "/anos" + veiculo.getAnoCod();
+		String query = baseApiUrl + veiculo.getTipo().name().toLowerCase() + "/marcas/"
+				+ veiculo.getMarcaCod() + "/modelos/" + veiculo.getModeloCod() + "/anos/" + veiculo.getAnoCod();
+		URL url = new URL(query);
 		JsonNode veiculos = Json.parse(url);
-		veiculo.setMarca(veiculos.get("marca").asText());
-
+		if (veiculos.get("Marca") != null) {
+			veiculo.setMarca(veiculos.get("Marca").asText());
+		}
 		return veiculo;
 	}
 	
+	@Transactional
 	public Vehicle addValor(Vehicle veiculo) throws IOException {
-		String url = baseApiUrl + veiculo.getTipo().name().toLowerCase() + "/marcas/"
-				+ veiculo.getMarcaCod() + "/modelos/" + veiculo.getModeloCod() + "/anos" + veiculo.getAnoCod();
+		String query = baseApiUrl + veiculo.getTipo().name().toLowerCase() + "/marcas/"
+				+ veiculo.getMarcaCod() + "/modelos/" + veiculo.getModeloCod() + "/anos/" + veiculo.getAnoCod();
+		URL url = new URL(query);
 		JsonNode veiculos = Json.parse(url);
-		veiculo.setValor(veiculos.get("valor").asText());		
+		if (veiculos.get("Valor") != null) {
+			veiculo.setValor(veiculos.get("Valor").asText());		
+		}
 		return veiculo;
 	}
 	
+	@Transactional
 	public Vehicle addRodizio(Vehicle veiculo) {
 		if (veiculo.getAno() != null && veiculo.getAno().length() > 0) {
-			char lastDigit = veiculo.getAno().charAt(veiculo.getAno().length() - 1);
+			String lastDigit = String.valueOf( veiculo.getAno().charAt(veiculo.getAno().length() - 1) );
 			
-			switch (lastDigit) {
-			case 0:
-				veiculo.setRodizio(DayOfWeek.valueOf("MONDAY"));
-				break;
-			case 1:
+			switch (lastDigit.toString()) {
+			case "0":
+			case "1":
 				veiculo.setRodizio(DayOfWeek.valueOf("MONDAY"));
 				break;		
-			case 2:
+			case "2":
+			case "3":
 				veiculo.setRodizio(DayOfWeek.valueOf("TUESDAY"));
 				break;
-			case 3:
-				veiculo.setRodizio(DayOfWeek.valueOf("TUESDAY"));
-				break;
-			case 4:
+			case "4":
+			case "5":
 				veiculo.setRodizio(DayOfWeek.valueOf("WEDNESDAY"));
 				break;
-			case 5:
-				veiculo.setRodizio(DayOfWeek.valueOf("WEDNESDAY"));
-				break;
-			case 6:
+			case "6":
+			case "7":
 				veiculo.setRodizio(DayOfWeek.valueOf("THURSDAY"));
 				break;
-			case 7:
-				veiculo.setRodizio(DayOfWeek.valueOf("THURSDAY"));
-				break;
-			case 8:
-				veiculo.setRodizio(DayOfWeek.valueOf("FRYDAY"));
-				break;
-			case 9:
+			case "8":
+			case "9":
 				veiculo.setRodizio(DayOfWeek.valueOf("FRYDAY"));
 				break;			
 			}
@@ -115,10 +123,6 @@ public class VehicleServiceImp implements VehicleService {
 		return veiculo;
 	}
 	
-	public boolean rodizioAtivo(Vehicle veiculo) {
-		LocalDate today = LocalDate.now();
-		return veiculo.getRodizio() == today.getDayOfWeek() ;
-	}
 	
 	
 }

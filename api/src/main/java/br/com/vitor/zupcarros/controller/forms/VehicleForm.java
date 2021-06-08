@@ -21,7 +21,7 @@ public class VehicleForm {
 	private String tipo;
 	@NotEmpty @NotNull @NotBlank
 	private String combustivel;
-	@NotEmpty @NotNull @NotBlank
+	@NotNull
 	private Long userId;
 	
 	

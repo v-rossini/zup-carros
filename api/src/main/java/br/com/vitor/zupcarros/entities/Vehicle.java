@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import br.com.vitor.zupcarros.entities.enums.DiaSemana;
 import br.com.vitor.zupcarros.entities.enums.VehicleFuel;
 import br.com.vitor.zupcarros.entities.enums.VehicleType;
 
@@ -44,7 +43,7 @@ public class Vehicle implements Serializable {
 		this.marcaCod = marcaCod;
 		this.modeloCod = modeloCod;
 		this.ano = ano;
-		this.anoCod = ano + "-" + String.valueOf(combustivel.ordinal());
+		this.anoCod = ano + "-" + String.valueOf(combustivel.ordinal()+1);
 		this.tipo = tipo;
 		this.combustivel = combustivel;
 		this.owner = owner;

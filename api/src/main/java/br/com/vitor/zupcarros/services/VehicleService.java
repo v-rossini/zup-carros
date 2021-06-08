@@ -1,9 +1,6 @@
 package br.com.vitor.zupcarros.services;
 
 import java.io.IOException;
-import java.text.ParseException;
-
-import javax.mail.internet.AddressException;
 
 import org.springframework.http.ResponseEntity;
 
