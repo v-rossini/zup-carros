@@ -22,13 +22,14 @@ public class Vehicle implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String marca;
+	private String marcaCod;
 	private String modelo;
+	private String modeloCod;
 	private String ano;
 	private Float valor;
 	private DiaSemana rodizio;
 	private VehicleType tipo;
 	private VehicleFuel combustivel;
-	private String placa;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -36,16 +37,14 @@ public class Vehicle implements Serializable {
 
 	public Vehicle () {}
 
-	public Vehicle(Long id, String marca, String modelo, String ano, Float valor, String codigoFipe,
-			VehicleType tipo, VehicleFuel combustivel) {
-		super();
-		this.id = id;
-		this.marca = marca;
-		this.modelo = modelo;
+	public Vehicle(String marcaCod, String modeloCod, String ano,
+			VehicleType tipo, VehicleFuel combustivel, User owner) {
+		this.marcaCod = marcaCod;
+		this.modeloCod = modeloCod;
 		this.ano = ano;
-		this.valor = valor;
 		this.tipo = tipo;
 		this.combustivel = combustivel;
+		this.owner = owner;
 	}
 
 	public String getMarca() {
@@ -56,12 +55,28 @@ public class Vehicle implements Serializable {
 		this.marca = marca;
 	}
 
+	public String getMarcaCod() {
+		return marcaCod;
+	}
+
+	public void setMarcaCod(String marcaCod) {
+		this.marcaCod = marcaCod;
+	}
+
 	public String getModelo() {
 		return modelo;
 	}
 
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
+	}
+
+	public String getModeloCod() {
+		return modeloCod;
+	}
+
+	public void setModeloCod(String modeloCod) {
+		this.modeloCod = modeloCod;
 	}
 
 	public String getAno() {
@@ -114,14 +129,6 @@ public class Vehicle implements Serializable {
 
 	public void setOwner(User owner) {
 		this.owner = owner;
-	}
-
-	public String getPlaca() {
-		return placa;
-	}
-
-	public void setPlaca(String placa) {
-		this.placa = placa;
 	}
 
 	@Override

@@ -17,7 +17,6 @@ public class VehicleDto {
 	private boolean rodizioAtivo = false;
 	private VehicleType tipo;
 	private VehicleFuel combustivel;
-	private String placa;
 	
 	
 	public VehicleDto () {}
@@ -31,7 +30,6 @@ public class VehicleDto {
 		this.rodizio = veiculo.getRodizio();
 		this.tipo = veiculo.getTipo();
 		this.combustivel = veiculo.getCombustivel();
-		this.placa = veiculo.getPlaca();
 	}
 	
 	
@@ -90,11 +88,5 @@ public class VehicleDto {
 	public void setCombustivel(VehicleFuel combustivel) {
 		this.combustivel = combustivel;
 	}
-	public String getPlaca() {
-		return placa;
-	}
-	public void setPlaca(String placa) {
-		this.placa = placa;
-	}		
 
 }
