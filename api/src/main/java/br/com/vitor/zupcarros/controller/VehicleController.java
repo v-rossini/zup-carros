@@ -25,7 +25,7 @@ public class VehicleController {
     
     
     @PostMapping
-    public ResponseEntity<VehicleDto> registerUser(@RequestBody @Valid VehicleForm form) throws IOException {
+    public ResponseEntity<VehicleDto> registerVehicle(@RequestBody @Valid VehicleForm form) throws IOException {
         return service.registerVehicle(form);
     }
 
