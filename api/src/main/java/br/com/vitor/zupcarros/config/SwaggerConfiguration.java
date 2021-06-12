@@ -16,7 +16,7 @@ public class SwaggerConfiguration {
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Zup Carros - API REST")
-                .description("<h4>Spring Boot REST API para o desafio Zup - Orange Blood</h4>")
+                .description("<h4>Spring Boot REST API para o desafio Zup - Orange Talents</h4>")
                 .version("1.1.0")
                 .build();
     }
