@@ -32,7 +32,11 @@ public class UserForm {
 		this.email = email;
 		this.dataNascimento = dataNascimento;
 	}
-	
+    
+    public User convertToEntity(ServicesUtil util) throws AddressException, ParseException {
+    	return new User(nome, cpf, util.emailValidator(email), util.converterData(dataNascimento));        
+    }
+    
 	public String getNome() {
 		return nome;
 	}
@@ -61,10 +65,6 @@ public class UserForm {
 		this.dataNascimento = dataNascimento;
 	}
 	
-    
-    public User convertToEntity(ServicesUtil util) throws AddressException, ParseException {
-    	return new User(nome, cpf, util.emailValidator(email), util.converterData(dataNascimento));        
-    }
     
 	
 }

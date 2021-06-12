@@ -75,8 +75,8 @@ public class UserServiceImp implements UserService {
 
 		List<Vehicle> list = findUser(userId).getVeiculos();
 		List<VehicleDto> listDto = list.stream().map(vehicle -> new VehicleDto(vehicle)).collect(Collectors.toList());
-		for(VehicleDto dto : listDto) 
-			dto.setRodizioAtivo(util.isToday(dto.getRodizio()));
+		for(VehicleDto dto : listDto)
+				dto.setRodizioAtivo((util.isToday(dto.getRodizio())));
 		
 		return new ResponseEntity<>(listDto, HttpStatus.OK);
 	}

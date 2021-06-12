@@ -25,12 +25,20 @@ public class VehicleForm {
 	private Long userId;
 	
 	
+	public Vehicle convertToEntity(UserService userService) {
+		Vehicle veiculo = new Vehicle (marcaCod, modeloCod, ano, VehicleType.valueOf(tipo), 
+				VehicleFuel.valueOf(combustivel), userService.findUser(userId) );
+		return veiculo;
+		
+	}	
+	
 	public String getMarcaCod() {
 		return marcaCod;
 	}
 	public void setMarcaCod(String marcaCod) {
 		this.marcaCod = marcaCod;
 	}
+	
 	public String getModeloCod() {
 		return modeloCod;
 	}
@@ -62,10 +70,6 @@ public class VehicleForm {
 		this.userId = userId;
 	}
 	
-	public Vehicle convertToEntity(UserService userService) {
-		Vehicle veiculo = new Vehicle (marcaCod, modeloCod, ano, VehicleType.valueOf(tipo), VehicleFuel.valueOf(combustivel), userService.findUser(userId) );
-		return veiculo;
-		
-	}
+
 
 }

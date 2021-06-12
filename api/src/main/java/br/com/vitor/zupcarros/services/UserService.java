@@ -20,3 +20,4 @@ public interface UserService {
     ResponseEntity<List<VehicleDto>> getUserVehicles(Long userId);
 
 }
+

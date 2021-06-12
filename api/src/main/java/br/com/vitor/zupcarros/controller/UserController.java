@@ -28,7 +28,8 @@ public class UserController {
     UserService service;
 	
     @PostMapping
-    public ResponseEntity<UserDto> registerUser(@RequestBody @Valid UserForm form) throws AddressException, ParseException {
+    public ResponseEntity<UserDto> registerUser(@RequestBody @Valid UserForm form) throws AddressException, 
+    ParseException {
         return service.registerUser(form);
     }
 
