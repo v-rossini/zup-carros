@@ -16,10 +16,10 @@ public class Json {
 		return defaultObjectMapper;
 	}
 	
-	public static JsonNode parse(URL string) throws IOException {
+	public static JsonNode parse(URL url) throws IOException {
 		JsonNode node;
 		try {
-			node = objectMapper.readTree(string);
+			node = objectMapper.readTree(url);
 		} catch (IOException e) {
 		throw new IOException("URL inválida");
 		}

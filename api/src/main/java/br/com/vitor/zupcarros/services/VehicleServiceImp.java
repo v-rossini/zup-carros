@@ -48,46 +48,42 @@ public class VehicleServiceImp implements VehicleService {
 	
 	@Transactional
 	public Vehicle addAtributes(Vehicle veiculo) throws IOException {
-		veiculo = addModelo(veiculo);
-		veiculo = addMarca(veiculo);
-		veiculo = addValor(veiculo);
+		String query = baseApiUrl + veiculo.getTipo().name().toLowerCase() + "/marcas/"
+				+ veiculo.getMarcaCod() + "/modelos/" + veiculo.getModeloCod() + "/anos/" + veiculo.getAnoCod();
+		URL url = new URL(query);
+		JsonNode node = Json.parse(url);
+		
+		veiculo = addModelo(veiculo, node);
+		veiculo = addMarca(veiculo, node);
+		veiculo = addValor(veiculo, node);
 		veiculo = addRodizio(veiculo);
 		return veiculo;
 	}
 	
 	@Transactional
-	public Vehicle addModelo(Vehicle veiculo) throws IOException {
-		String query = baseApiUrl + veiculo.getTipo().name().toLowerCase() + "/marcas/"
-				+ veiculo.getMarcaCod() + "/modelos/" + veiculo.getModeloCod() + "/anos/" + veiculo.getAnoCod();
-		URL url = new URL(query);
-		JsonNode veiculos = Json.parse(url);
-		if (veiculos.get("Modelo") != null) {
-			veiculo.setModelo(veiculos.get("Modelo").asText());
+	public Vehicle addModelo(Vehicle veiculo, JsonNode node) throws IOException {
+
+		if (node.get("Modelo") != null) {
+			veiculo.setModelo(node.get("Modelo").asText());
 		}
 		return veiculo;
 		
 	}
 	
 	@Transactional
-	public Vehicle addMarca(Vehicle veiculo) throws IOException {
-		String query = baseApiUrl + veiculo.getTipo().name().toLowerCase() + "/marcas/"
-				+ veiculo.getMarcaCod() + "/modelos/" + veiculo.getModeloCod() + "/anos/" + veiculo.getAnoCod();
-		URL url = new URL(query);
-		JsonNode veiculos = Json.parse(url);
-		if (veiculos.get("Marca") != null) {
-			veiculo.setMarca(veiculos.get("Marca").asText());
+	public Vehicle addMarca(Vehicle veiculo, JsonNode node) throws IOException {
+
+		if (node.get("Marca") != null) {
+			veiculo.setMarca(node.get("Marca").asText());
 		}
 		return veiculo;
 	}
 	
 	@Transactional
-	public Vehicle addValor(Vehicle veiculo) throws IOException {
-		String query = baseApiUrl + veiculo.getTipo().name().toLowerCase() + "/marcas/"
-				+ veiculo.getMarcaCod() + "/modelos/" + veiculo.getModeloCod() + "/anos/" + veiculo.getAnoCod();
-		URL url = new URL(query);
-		JsonNode veiculos = Json.parse(url);
-		if (veiculos.get("Valor") != null) {
-			veiculo.setValor(veiculos.get("Valor").asText());		
+	public Vehicle addValor(Vehicle veiculo, JsonNode node) throws IOException {
+
+		if (node.get("Valor") != null) {
+			veiculo.setValor(node.get("Valor").asText());		
 		}
 		return veiculo;
 	}

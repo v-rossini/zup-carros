@@ -13,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -54,9 +55,14 @@ public class UserServiceImp implements UserService {
 	
 	@Transactional
 	public ResponseEntity<UserDto> registerUser(UserForm form) throws AddressException, ParseException {
+		try {
 		User user = repository.save(form.convertToEntity(util));
-		return new ResponseEntity<>(new UserDto(user), HttpStatus.CREATED);
+			return new ResponseEntity<>(new UserDto(user), HttpStatus.CREATED);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException("Não foi possível cadastrar usuário. Email ou CPF já registrados");
+		}
 	}
+		
 
 	public ResponseEntity<UserDto> getUser(Long userId) {
 		return ResponseEntity.ok(new UserDto(findUser(userId)));
@@ -66,9 +72,8 @@ public class UserServiceImp implements UserService {
 	@Override
 	@Transactional
 	public ResponseEntity<List<VehicleDto>> getVehicles(Long userId) {
-		Optional<User> user = repository.findById(userId);
-		
-		List<Vehicle> list = user.get().getVeiculos();
+
+		List<Vehicle> list = findUser(userId).getVeiculos();
 		List<VehicleDto> listDto = list.stream().map(vehicle -> new VehicleDto(vehicle)).collect(Collectors.toList());
 		for(VehicleDto dto : listDto) 
 			dto.setRodizioAtivo(util.isToday(dto.getRodizio()));
