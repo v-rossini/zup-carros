@@ -71,7 +71,7 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	@Transactional
-	public ResponseEntity<List<VehicleDto>> getVehicles(Long userId) {
+	public ResponseEntity<List<VehicleDto>> getUserVehicles(Long userId) {
 
 		List<Vehicle> list = findUser(userId).getVeiculos();
 		List<VehicleDto> listDto = list.stream().map(vehicle -> new VehicleDto(vehicle)).collect(Collectors.toList());

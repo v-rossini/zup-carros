@@ -17,6 +17,6 @@ public interface UserService {
 	User findUser(Long userId);
     ResponseEntity<UserDto> registerUser(UserForm form) throws AddressException, ParseException;
     ResponseEntity<UserDto> getUser(Long userId);
-    ResponseEntity<List<VehicleDto>> getVehicles(Long userId);
+    ResponseEntity<List<VehicleDto>> getUserVehicles(Long userId);
 
 }

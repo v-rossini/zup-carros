@@ -40,7 +40,7 @@ public class UserController {
     
     @GetMapping("/{id}/vehicles")
     public ResponseEntity<List<VehicleDto>> getVehicles(@PathVariable Long id) {
-        return service.getVehicles(id);
+        return service.getUserVehicles(id);
     }
     
 }
